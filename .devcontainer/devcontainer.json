@@ -1,6 +1,9 @@
 {
 	"name": "aka.eojin.dev",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye"
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+	"mounts": [
+		"source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,type=bind,consistency=cached"
+	]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {
