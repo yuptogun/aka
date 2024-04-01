@@ -1,6 +1,8 @@
 {
 	"name": "aka.eojin.dev",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+	"dockerComposeFile": "./docker-compose.yaml",
+	"service": "app",
+	"workspaceFolder": "/workspace/aka",
 	"mounts": [
 		"source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,type=bind,consistency=cached"
 	]
