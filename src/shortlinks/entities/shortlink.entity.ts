@@ -26,8 +26,8 @@ export class Shortlink {
   update_token: string;
 
   /** 최종 저장한 사람의 IP. 로그인 없이 rate limit 구현하기 위함 */
-  @Column('inet4')
-  saved_from: number;
+  @Column('varchar')
+  saved_from: string;
 
   /** 최초생성일시 */
   @CreateDateColumn()

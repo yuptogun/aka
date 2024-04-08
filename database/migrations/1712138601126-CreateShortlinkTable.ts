@@ -32,7 +32,7 @@ export class CreateShortlinkTable1712138601126 implements MigrationInterface {
           },
           {
             name: 'saved_from',
-            type: 'inet4',
+            type: 'varchar',
             isNullable: false,
           },
           {
