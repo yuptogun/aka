@@ -13,6 +13,7 @@ const config: DataSourceOptions = {
   password: process.env.DATABASE_PASS,
   entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../migrations/*.ts'],
+  logging: process.env.APP_DEBUG || false ? false : ['query', 'query'],
 };
 
 export const AKADataSource = new DataSource(config);

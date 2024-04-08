@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
 import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
+import { DataSource } from 'typeorm';
+import { Shortlink } from './entities/shortlink.entity';
 
 @Injectable()
 export class ShortlinksService {
+  constructor(private dataSource: DataSource) {}
   create(createShortlinkDto: CreateShortlinkDto) {
     return 'This action adds a new shortlink';
   }
 
   findAll() {
-    return `This action returns all shortlinks`;
+    return this.dataSource.manager.findBy(Shortlink, {
+      deleted_at: null,
+    });
   }
 
   findOne(id: number) {
