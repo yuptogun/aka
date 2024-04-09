@@ -58,6 +58,6 @@ export class CreateShortlinkTable1712138601126 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('shortlinks');
+    await queryRunner.dropTable('shortlink');
   }
 }

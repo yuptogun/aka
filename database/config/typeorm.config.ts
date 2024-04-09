@@ -4,6 +4,8 @@ import { registerAs as registerConfig } from '@nestjs/config';
 
 configurate();
 
+console.log(process.env.APP_DEBUG);
+
 const config: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DATABASE_HOST,
@@ -13,7 +15,7 @@ const config: DataSourceOptions = {
   password: process.env.DATABASE_PASS,
   entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../migrations/*.ts'],
-  logging: process.env.APP_DEBUG || false ? false : ['query', 'query'],
+  logging: process.env.APP_DEBUG === 'true' ? ['query', 'query'] : false,
 };
 
 export const AKADataSource = new DataSource(config);
