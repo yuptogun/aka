@@ -1,1 +1,7 @@
-export class CreateShortlinkDto {}
+import { IsNotEmpty, IsUrl } from 'class-validator';
+
+export class CreateShortlinkDto {
+  @IsUrl()
+  @IsNotEmpty()
+  url: string;
+}
