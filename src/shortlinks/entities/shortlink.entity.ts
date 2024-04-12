@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -26,6 +27,7 @@ export class Shortlink {
   update_token: string;
 
   /** 최종 저장한 사람의 IP. 로그인 없이 rate limit 구현하기 위함 */
+  @Exclude()
   @Column('varchar')
   saved_from: string;
 
