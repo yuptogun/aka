@@ -11,4 +11,4 @@ NestJS + TypeScript 자습 목적의 Bitly 클론 애플리케이션입니다.
 | 2024-04-02 | [3일차](./.journal/2024-04-02.md) | PostgreSQL 설정: devcontainer, 의존성 설치 |
 | 2024-04-08 | [4일차](./.journal/2024-04-08.md) | PostgreSQL 설정: DataSource, 마이그레이션 |
 | 2024-04-09 | [5일차](./.journal/2024-04-09.md) | PostgreSQL 설정: App에서 사용 |
-| 2024-04-12 | [6일차](./.journal/2024-04-12.md) | Create 구현 - 저장소 패턴, TypeORM, 무작위 문자열 생성 등 |
+| 2024-04-12 | [6일차](./.journal/2024-04-12.md) | Create 구현 |
