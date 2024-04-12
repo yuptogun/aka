@@ -1,18 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
 import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
-import { DataSource } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Shortlink } from './entities/shortlink.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ShortlinksService {
-  constructor(private dataSource: DataSource) {}
-  create(createShortlinkDto: CreateShortlinkDto) {
-    return 'This action adds a new shortlink';
+  constructor(
+    @InjectRepository(Shortlink)
+    private repo: Repository<Shortlink>,
+  ) {}
+
+  create(input: CreateShortlinkDto) {
+    return input;
   }
 
   findAll() {
-    return this.dataSource.manager.findBy(Shortlink, {
+    return this.repo.findBy({
       deleted_at: null,
     });
   }
