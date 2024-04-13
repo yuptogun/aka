@@ -2,7 +2,7 @@ services:
   app:
     image: "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye"
     volumes:
-      - ..:/workspace/aka
+      - ..:/workspace
     depends_on:
       - postgres
     command: sleep infinity
@@ -11,9 +11,9 @@ services:
     tty: true
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=aka
-      - POSTGRES_USER=aka
-      - POSTGRES_PASSWORD=aka
+      - POSTGRES_DB=${DATABASE_NAME:-aka}
+      - POSTGRES_USER=${DATABASE_USER:-aka}
+      - POSTGRES_PASSWORD=${DATABASE_PASS:-aka}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 volumes:

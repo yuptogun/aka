@@ -2,7 +2,7 @@
 	"name": "aka.eojin.dev",
 	"dockerComposeFile": "./docker-compose.yaml",
 	"service": "app",
-	"workspaceFolder": "/workspace/aka",
+	"workspaceFolder": "/workspace",
 	"mounts": [
 		"source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,type=bind,consistency=cached"
 	]
