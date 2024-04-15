@@ -12,8 +12,11 @@ NestJS + TypeScript 자습 목적의 Bitly 클론 애플리케이션입니다.
 | 2024-04-08 | [4일차](./.journal/2024-04-08.md) | PostgreSQL 설정: DataSource, 마이그레이션 |
 | 2024-04-09 | [5일차](./.journal/2024-04-09.md) | PostgreSQL 설정: App에서 사용 |
 | 2024-04-12 | [6일차](./.journal/2024-04-12.md) | Create 구현 |
+| 2024-04-15 | [7일차](./.journal/2024-04-15.md) | Create 개선 |
 
-## Dev Mode Quick Start
+## Quick Start
+
+### Setup
 
 Docker, VS Code, dev container 플러그인에 의존합니다.  
 모두 설치가 되면...
@@ -36,3 +39,10 @@ npm run typeorm migration:run -- -d database/config/typeorm.config.ts
 # 실행!
 npm run start:dev
 ```
+
+### API Specification
+
+[Bruno](https://www.usebruno.com/)를 사용한 API 사양 관리를 하고 있습니다.  
+"Open Collection" 기능으로 `.bruno/` 디렉토리를 불러오시면 됩니다.
+
+프로젝트 완료 시점쯤 되면 [OpenAPI](https://docs.nestjs.com/openapi/introduction) 구현도 추가할 생각입니다.
