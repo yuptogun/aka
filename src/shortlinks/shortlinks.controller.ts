@@ -13,7 +13,9 @@ import {
   UsePipes,
   HttpException,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ShortlinksService } from './shortlinks.service';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
 // import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
@@ -29,8 +31,14 @@ export class ShortlinksController {
 
   @UsePipes(new ValidationPipe({ transform: true }))
   @Post()
-  create(@Body() body: CreateShortlinkDto, @Ip() ip: string) {
-    return this.shortlinksService.create(body, ip);
+  async create(
+    @Body() body: CreateShortlinkDto,
+    @Ip() ip: string,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const shortlink = await this.shortlinksService.create(body, ip);
+    res.cookie('update_token', shortlink.update_token, { httpOnly: true });
+    return shortlink;
   }
 
   @Get()
