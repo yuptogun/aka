@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
   Delete,
   Ip,
@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { ShortlinksService } from './shortlinks.service';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
-import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
+// import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
 import { ConfigService } from '@nestjs/config';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -46,13 +46,13 @@ export class ShortlinksController {
     return this.shortlinksService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateShortlinkDto: UpdateShortlinkDto,
-  ) {
-    return this.shortlinksService.update(+id, updateShortlinkDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateShortlinkDto: UpdateShortlinkDto,
+  // ) {
+  //   return this.shortlinksService.update(+id, updateShortlinkDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
