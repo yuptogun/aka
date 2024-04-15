@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
-import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
+// import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
 import { Repository } from 'typeorm';
 import { Shortlink } from './entities/shortlink.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -46,9 +46,9 @@ export class ShortlinksService {
     return `This action returns a #${id} shortlink`;
   }
 
-  update(id: number, updateShortlinkDto: UpdateShortlinkDto) {
-    return `This action updates a #${id} shortlink`;
-  }
+  // update(id: number, updateShortlinkDto: UpdateShortlinkDto) {
+  //   return `This action updates a #${id} shortlink`;
+  // }
 
   remove(id: number) {
     return `This action removes a #${id} shortlink`;

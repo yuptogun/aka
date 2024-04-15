@@ -4,8 +4,6 @@ import { registerAs as registerConfig } from '@nestjs/config';
 
 configurate();
 
-console.log(process.env.APP_DEBUG);
-
 const config: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DATABASE_HOST,
