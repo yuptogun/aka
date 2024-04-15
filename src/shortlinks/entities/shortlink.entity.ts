@@ -23,6 +23,7 @@ export class Shortlink {
   code: string;
 
   /** 다음 수정을 위한 1회용 인증토큰. 로그인 없이 authorization 구현하기 위함 */
+  @Exclude({ toPlainOnly: true })
   @Column('varchar')
   update_token: string;
 
