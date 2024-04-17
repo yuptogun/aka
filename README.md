@@ -13,6 +13,7 @@ NestJS + TypeScript 자습 목적의 Bitly 클론 애플리케이션입니다.
 | 2024-04-09 | [5일차](./.journal/2024-04-09.md) | PostgreSQL 설정: App에서 사용 |
 | 2024-04-12 | [6일차](./.journal/2024-04-12.md) | Create 구현 |
 | 2024-04-15 | [7일차](./.journal/2024-04-15.md) | Create 개선 |
+| 2024-04-17 | [8일차](./.journal/2024-04-17.md) | 테이블 컬럼 추가 |
 
 ## Quick Start
 
