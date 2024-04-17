@@ -11,8 +11,8 @@ const config: DataSourceOptions = {
   database: process.env.DATABASE_NAME,
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASS,
-  entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/../migrations/*.ts'],
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/../database/migrations/*.ts'],
   logging: process.env.APP_DEBUG === 'true' ? ['query', 'query'] : false,
 };
 

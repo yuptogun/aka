@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ShortlinksModule } from './shortlinks/shortlinks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import typeormconfig from '../database/config/typeorm.config';
+import typeormconfig from '../config/typeorm.config';
 
 @Module({
   imports: [
