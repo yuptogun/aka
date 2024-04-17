@@ -23,6 +23,7 @@ export class ShortlinksService {
     if (shortlink === null) {
       const newShortlink = new Shortlink();
       newShortlink.url = body.url;
+      newShortlink.title = body.title;
       newShortlink.code = await this.getRandomCode();
       newShortlink.update_token = randomBytes(20).toString('hex');
       newShortlink.saved_from = ip;

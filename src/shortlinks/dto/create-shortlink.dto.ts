@@ -4,4 +4,6 @@ export class CreateShortlinkDto {
   @IsUrl()
   @IsNotEmpty()
   url: string;
+
+  title: null | string;
 }
