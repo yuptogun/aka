@@ -48,6 +48,7 @@ export class Shortlink {
   updated_at: Date;
 
   /** "삭제"일시 */
+  @Exclude()
   @DeleteDateColumn()
   deleted_at: Date | null;
 }
