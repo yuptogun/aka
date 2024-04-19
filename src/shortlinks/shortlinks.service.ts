@@ -43,12 +43,19 @@ export class ShortlinksService {
     return `This action returns a #${id} shortlink`;
   }
 
+  async findOneByToken(id: number, token: string) {
+    return await this.repo.findOneBy({
+      id: id,
+      update_token: token,
+    });
+  }
+
   // update(id: number, updateShortlinkDto: UpdateShortlinkDto) {
   //   return `This action updates a #${id} shortlink`;
   // }
 
-  remove(id: number) {
-    return `This action removes a #${id} shortlink`;
+  async remove(id: number) {
+    return await this.repo.softDelete(id);
   }
 
   async getRandomCode(len: number = 3): Promise<string> {
