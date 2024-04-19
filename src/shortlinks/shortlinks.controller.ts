@@ -14,8 +14,9 @@ import {
   HttpException,
   HttpStatus,
   Res,
+  Req,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { ShortlinksService } from './shortlinks.service';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
 // import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
@@ -63,7 +64,28 @@ export class ShortlinksController {
   // }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.shortlinksService.remove(+id);
+  async remove(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param('id') id: string,
+  ) {
+    if ('update_token' in req.cookies) {
+      const shortlink = await this.shortlinksService.findOneByToken(
+        +id,
+        req.cookies['update_token'],
+      );
+      if (!shortlink) {
+        throw new HttpException(
+          'Not found - check token.',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      await this.shortlinksService.remove(shortlink.id);
+      res.clearCookie('update_token');
+      res.sendStatus(HttpStatus.NO_CONTENT);
+      return;
+    }
+    res.sendStatus(HttpStatus.BAD_REQUEST);
+    return;
   }
 }

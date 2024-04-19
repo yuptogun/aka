@@ -17,7 +17,6 @@ export class ShortlinksService {
 
   async create(body: CreateShortlinkDto, ip: string) {
     let shortlink = await this.repo.findOneBy({
-      deleted_at: null,
       url: body.url,
     });
     if (shortlink === null) {
@@ -34,9 +33,6 @@ export class ShortlinksService {
 
   findAll() {
     return this.repo.find({
-      where: {
-        deleted_at: null,
-      },
       order: {
         id: 'desc',
       },
@@ -47,12 +43,19 @@ export class ShortlinksService {
     return `This action returns a #${id} shortlink`;
   }
 
+  async findOneByToken(id: number, token: string) {
+    return await this.repo.findOneBy({
+      id: id,
+      update_token: token,
+    });
+  }
+
   // update(id: number, updateShortlinkDto: UpdateShortlinkDto) {
   //   return `This action updates a #${id} shortlink`;
   // }
 
-  remove(id: number) {
-    return `This action removes a #${id} shortlink`;
+  async remove(id: number) {
+    return await this.repo.softDelete(id);
   }
 
   async getRandomCode(len: number = 3): Promise<string> {
@@ -68,7 +71,6 @@ export class ShortlinksService {
         trial++;
         code = this.createRandomCode(len);
         shouldRetry = await this.repo.existsBy({
-          deleted_at: null,
           code: code,
         });
       }
