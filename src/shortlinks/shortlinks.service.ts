@@ -17,7 +17,6 @@ export class ShortlinksService {
 
   async create(body: CreateShortlinkDto, ip: string) {
     let shortlink = await this.repo.findOneBy({
-      deleted_at: null,
       url: body.url,
     });
     if (shortlink === null) {
@@ -34,9 +33,6 @@ export class ShortlinksService {
 
   findAll() {
     return this.repo.find({
-      where: {
-        deleted_at: null,
-      },
       order: {
         id: 'desc',
       },
@@ -68,7 +64,6 @@ export class ShortlinksService {
         trial++;
         code = this.createRandomCode(len);
         shouldRetry = await this.repo.existsBy({
-          deleted_at: null,
           code: code,
         });
       }
