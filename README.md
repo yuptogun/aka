@@ -29,14 +29,14 @@ Docker, VS Code, dev container 플러그인에 의존합니다.
    * Postgres DB를 개발컨테이너 외의 다른 것으로 쓰시려면 이 파일을 고치시면 됩니다.
 4. VS Code에서 "open workspace in container" 명령을 실행하세요.
    * 처음 실행할 경우 이미지 다운로드 시간이 약간 걸립니다.
-5. 새로 열린 워크스페이스에서 터미널을 새로 열어 시작하시면 됩니다!
+5. 새로 열린 워크스페이스에서 터미널을 새로 열어 시작하세요!
 
 ```shell
 # 의존성 설치
 npm i
 
 # DB 마이그레이션
-npm run typeorm migration:run -- -d database/config/typeorm.config.ts
+npm run typeorm migration:run -- -d config/typeorm.config.ts
 
 # 실행!
 npm run start:dev
