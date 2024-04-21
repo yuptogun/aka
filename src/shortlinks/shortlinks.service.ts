@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
-// import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
+import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
 import { Repository } from 'typeorm';
 import { Shortlink } from './entities/shortlink.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -39,8 +39,8 @@ export class ShortlinksService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} shortlink`;
+  async findOne(id: number) {
+    return await this.repo.findOneBy({ id: id });
   }
 
   async findOneByToken(id: number, token: string) {
@@ -50,9 +50,13 @@ export class ShortlinksService {
     });
   }
 
-  // update(id: number, updateShortlinkDto: UpdateShortlinkDto) {
-  //   return `This action updates a #${id} shortlink`;
-  // }
+  async update(id: number, updateShortlinkDto: UpdateShortlinkDto, ip: string) {
+    await this.repo.update(id, {
+      title: updateShortlinkDto.title,
+      update_token: randomBytes(20).toString('hex'),
+      saved_from: ip,
+    });
+  }
 
   async remove(id: number) {
     return await this.repo.softDelete(id);
