@@ -65,7 +65,7 @@ export class ShortlinksController {
     @Ip() ip: string,
   ) {
     if ('update_token' in req.cookies) {
-      return await this.findByIdAndTokenOrFail(+id, req.cookies['update_token'])
+      return this.findByIdAndTokenOrFail(+id, req.cookies['update_token'])
         .then(async (shortlink) => {
           await this.shortlinksService.update(
             shortlink.id,
@@ -85,27 +85,21 @@ export class ShortlinksController {
   @Delete(':id')
   async remove(
     @Req() req: Request,
-    @Res() res: Response,
+    @Res({ passthrough: true }) res: Response,
     @Param('id') id: string,
   ) {
     if ('update_token' in req.cookies) {
-      const shortlink = await this.shortlinksService.findOneByToken(
-        +id,
-        req.cookies['update_token'],
-      );
-      if (!shortlink) {
-        throw new HttpException(
-          'Not found - check token.',
-          HttpStatus.NOT_FOUND,
-        );
-      }
-      await this.shortlinksService.remove(shortlink.id);
-      res.clearCookie('update_token');
-      res.sendStatus(HttpStatus.NO_CONTENT);
-      return;
+      return this.findByIdAndTokenOrFail(+id, req.cookies['update_token'])
+        .then(async (shortlink) => {
+          await this.shortlinksService.remove(shortlink.id);
+        })
+        .then(() => {
+          res.clearCookie('update_token');
+          res.sendStatus(HttpStatus.NO_CONTENT);
+          return;
+        });
     }
-    res.sendStatus(HttpStatus.BAD_REQUEST);
-    return;
+    throw new HttpException('no token, no delete.', HttpStatus.BAD_REQUEST);
   }
 
   async findByIdAndTokenOrFail(id: number, token: string) {
