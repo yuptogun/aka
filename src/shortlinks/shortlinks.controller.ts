@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
+  Patch,
   Param,
   Delete,
   Ip,
@@ -19,7 +19,7 @@ import {
 import { Request, Response } from 'express';
 import { ShortlinksService } from './shortlinks.service';
 import { CreateShortlinkDto } from './dto/create-shortlink.dto';
-// import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
+import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
 import { ConfigService } from '@nestjs/config';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -55,13 +55,32 @@ export class ShortlinksController {
     return this.shortlinksService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateShortlinkDto: UpdateShortlinkDto,
-  // ) {
-  //   return this.shortlinksService.update(+id, updateShortlinkDto);
-  // }
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Patch(':id')
+  async update(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string,
+    @Body() updateShortlinkDto: UpdateShortlinkDto,
+    @Ip() ip: string,
+  ) {
+    if ('update_token' in req.cookies) {
+      return await this.findByIdAndTokenOrFail(+id, req.cookies['update_token'])
+        .then(async (shortlink) => {
+          await this.shortlinksService.update(
+            shortlink.id,
+            updateShortlinkDto,
+            ip,
+          );
+        })
+        .then(async () => {
+          const shortlink = await this.shortlinksService.findOne(+id);
+          res.cookie('update_token', shortlink.update_token);
+          return shortlink;
+        });
+    }
+    throw new HttpException('no token, no update.', HttpStatus.BAD_REQUEST);
+  }
 
   @Delete(':id')
   async remove(
@@ -87,5 +106,13 @@ export class ShortlinksController {
     }
     res.sendStatus(HttpStatus.BAD_REQUEST);
     return;
+  }
+
+  async findByIdAndTokenOrFail(id: number, token: string) {
+    const shortlink = await this.shortlinksService.findOneByToken(id, token);
+    if (!shortlink) {
+      throw new HttpException('Not found - check token.', HttpStatus.NOT_FOUND);
+    }
+    return shortlink;
   }
 }

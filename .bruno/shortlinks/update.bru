@@ -1,0 +1,21 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3000/shortlinks/{{id}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": null
+  }
+}
+
+vars:pre-request {
+  id: 
+}
