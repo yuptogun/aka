@@ -15,6 +15,7 @@ import {
   HttpStatus,
   Res,
   Req,
+  HttpCode,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ShortlinksService } from './shortlinks.service';
@@ -82,6 +83,7 @@ export class ShortlinksController {
     throw new HttpException('no token, no update.', HttpStatus.BAD_REQUEST);
   }
 
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   async remove(
     @Req() req: Request,
@@ -95,7 +97,6 @@ export class ShortlinksController {
         })
         .then(() => {
           res.clearCookie('update_token');
-          res.sendStatus(HttpStatus.NO_CONTENT);
           return;
         });
     }
