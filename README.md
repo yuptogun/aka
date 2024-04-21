@@ -15,6 +15,7 @@ NestJS + TypeScript 자습 목적의 Bitly 클론 애플리케이션입니다.
 | 2024-04-15 | [7일차](./.journal/2024-04-15.md) | Create 개선 |
 | 2024-04-17 | [8일차](./.journal/2024-04-17.md) | 테이블 컬럼 추가 |
 | 2024-04-19 | [9일차](./.journal/2024-04-19.md) | Delete 구현 |
+| 2024-04-21 | [10일차](./.journal/2024-04-21.md) | Update 구현 |
 
 ## Quick Start
 
