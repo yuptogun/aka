@@ -28,7 +28,7 @@ import { ConfigService } from '@nestjs/config';
 export class ShortlinksController {
   constructor(
     private config: ConfigService,
-    private readonly shortlinksService: ShortlinksService,
+    private readonly service: ShortlinksService,
   ) {}
 
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -38,7 +38,7 @@ export class ShortlinksController {
     @Ip() ip: string,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const shortlink = await this.shortlinksService.create(body, ip);
+    const shortlink = await this.service.create(body, ip);
     res.cookie('update_token', shortlink.update_token, { httpOnly: true });
     return shortlink;
   }
@@ -46,14 +46,14 @@ export class ShortlinksController {
   @Get()
   findAll() {
     if (this.config.get('APP_DEBUG') === 'true') {
-      return this.shortlinksService.findAll();
+      return this.service.findAll();
     }
     throw new HttpException('Forbidden.', HttpStatus.FORBIDDEN);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.shortlinksService.findOne(+id);
+    return this.service.findOne(+id);
   }
 
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -68,14 +68,10 @@ export class ShortlinksController {
     if ('update_token' in req.cookies) {
       return this.findByIdAndTokenOrFail(+id, req.cookies['update_token'])
         .then(async (shortlink) => {
-          await this.shortlinksService.update(
-            shortlink.id,
-            updateShortlinkDto,
-            ip,
-          );
+          await this.service.update(shortlink.id, updateShortlinkDto, ip);
         })
         .then(async () => {
-          const shortlink = await this.shortlinksService.findOne(+id);
+          const shortlink = await this.service.findOne(+id);
           res.cookie('update_token', shortlink.update_token);
           return shortlink;
         });
@@ -93,7 +89,7 @@ export class ShortlinksController {
     if ('update_token' in req.cookies) {
       return this.findByIdAndTokenOrFail(+id, req.cookies['update_token'])
         .then(async (shortlink) => {
-          await this.shortlinksService.remove(shortlink.id);
+          await this.service.remove(shortlink.id);
         })
         .then(() => {
           res.clearCookie('update_token');
@@ -104,7 +100,7 @@ export class ShortlinksController {
   }
 
   async findByIdAndTokenOrFail(id: number, token: string) {
-    const shortlink = await this.shortlinksService.findOneByToken(id, token);
+    const shortlink = await this.service.findOneByToken(id, token);
     if (!shortlink) {
       throw new HttpException('Not found - check token.', HttpStatus.NOT_FOUND);
     }
