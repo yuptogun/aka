@@ -31,6 +31,20 @@ export class ShortlinksController {
     private readonly service: ShortlinksService,
   ) {}
 
+  @Get(':code')
+  @HttpCode(HttpStatus.FOUND)
+  async redirectByCode(@Param('code') code: string) {
+    const shortlink = await this.service.findOneByCode(code);
+    if (!shortlink) {
+      throw new HttpException('shortlink not found!', HttpStatus.NOT_FOUND);
+    }
+    const url = shortlink.url;
+    return 'now bringing you to <a href="___" noreferer noopener>___</a>...<script>setTimeout(function () { window.location.href = "___"; }, 1000);</script>'.replaceAll(
+      '___',
+      url,
+    );
+  }
+
   @UsePipes(new ValidationPipe({ transform: true }))
   @Post('api/shortlinks')
   async create(

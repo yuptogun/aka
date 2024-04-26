@@ -50,6 +50,12 @@ export class ShortlinksService {
     });
   }
 
+  async findOneByCode(code: string) {
+    return await this.repo.findOneBy({
+      code: code,
+    });
+  }
+
   async update(id: number, updateShortlinkDto: UpdateShortlinkDto, ip: string) {
     await this.repo.update(id, {
       title: updateShortlinkDto.title,
