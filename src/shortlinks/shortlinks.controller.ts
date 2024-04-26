@@ -24,15 +24,29 @@ import { UpdateShortlinkDto } from './dto/update-shortlink.dto';
 import { ConfigService } from '@nestjs/config';
 
 @UseInterceptors(ClassSerializerInterceptor)
-@Controller('shortlinks')
+@Controller()
 export class ShortlinksController {
   constructor(
     private config: ConfigService,
     private readonly service: ShortlinksService,
   ) {}
 
+  @Get(':code')
+  @HttpCode(HttpStatus.FOUND)
+  async redirectByCode(@Param('code') code: string) {
+    const shortlink = await this.service.findOneByCode(code);
+    if (!shortlink) {
+      throw new HttpException('shortlink not found!', HttpStatus.NOT_FOUND);
+    }
+    const url = shortlink.url;
+    return 'now bringing you to <a href="___" noreferer noopener>___</a>...<script>setTimeout(function () { window.location.href = "___"; }, 1000);</script>'.replaceAll(
+      '___',
+      url,
+    );
+  }
+
   @UsePipes(new ValidationPipe({ transform: true }))
-  @Post()
+  @Post('api/shortlinks')
   async create(
     @Body() body: CreateShortlinkDto,
     @Ip() ip: string,
@@ -43,7 +57,7 @@ export class ShortlinksController {
     return shortlink;
   }
 
-  @Get()
+  @Get('api/shortlinks')
   findAll() {
     if (this.config.get('APP_DEBUG') === 'true') {
       return this.service.findAll();
@@ -51,13 +65,13 @@ export class ShortlinksController {
     throw new HttpException('Forbidden.', HttpStatus.FORBIDDEN);
   }
 
-  @Get(':id')
+  @Get('api/shortlinks/:id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);
   }
 
   @UsePipes(new ValidationPipe({ transform: true }))
-  @Patch(':id')
+  @Patch('api/shortlinks/:id')
   async update(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -80,7 +94,7 @@ export class ShortlinksController {
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete(':id')
+  @Delete('api/shortlinks/:id')
   async remove(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
