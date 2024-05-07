@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ShortlinksModule } from './shortlinks/shortlinks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,7 +16,5 @@ import typeormconfig from '../config/typeorm.config';
     }),
     ShortlinksModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
