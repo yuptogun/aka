@@ -17,6 +17,8 @@ NestJS + TypeScript 자습 목적의 Bitly 클론 애플리케이션입니다.
 | 2024-04-19 | [9일차](./client/content/journal/2024-04-19.md) | Delete 구현 |
 | 2024-04-21 | [10일차](./client/content/journal/2024-04-21.md) | Update 구현 |
 | 2024-04-26 | [11일차](./client/content/journal/2024-04-26.md) | 리디렉션 구현 |
+| 2024-05-06 | [12일차](./client/content/journal/2024-05-06.md) | Nuxt 추가 |
+| 2024-05-07 | [13일차](./client/content/journal/2024-05-07.md) | Nuxt 모듈 활용 |
 
 ## Quick Start
 

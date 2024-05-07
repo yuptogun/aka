@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const journalContent = ref(null);
+const journalContent = ref();
 const getJournal = async function (date: string) {
   const data = await queryContent(`journal/${date}`).findOne();
   journalContent.value = data;
@@ -14,6 +14,8 @@ const columns = [
   { key: 'summary', label: '요약' }
 ];
 const journal = [
+  { id: 13, date: '2024-05-07', summary: 'Nuxt 모듈 활용' },
+  { id: 12, date: '2024-05-06', summary: 'Nuxt 추가' },
   { id: 11, date: '2024-04-26', summary: '단축링크 리디렉션 구현' },
   { id: 10, date: '2024-04-21', summary: 'Update 구현' },
   { id:  9, date: '2024-04-19', summary: 'Delete 구현' },
@@ -26,8 +28,11 @@ const journal = [
   { id:  2, date: '2024-04-01', summary: 'devcontainer 개선' },
   { id:  1, date: '2024-03-19', summary: '서론, devcontainer 시작' },
 ].map((j) => {
-  j.id = { value: j.id, class: 'hidden md:table-cell' };
-  return j;
+  return {
+    date: j.date,
+    summary: j.summary,
+    id: { value: j.id, class: 'hidden md:table-cell' },
+  };
 });
 const journalPage = ref(1);
 const journalPageCount = 3;
@@ -45,19 +50,20 @@ const journalRows = computed(() => {
         {{ row.id.value }}일차
       </template>
       <template #date-data="{ row }">
-        <span @click="getJournal(row.date)" class="underline underline-offset-4 cursor-pointer">{{ row.date
-          }}</span>
+        <span @click="getJournal(row.date)" class="underline underline-offset-4 cursor-pointer">
+          {{ row.date }}
+        </span>
       </template>
     </UTable>
     <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
       <UPagination v-model="journalPage" :page-count="journalPageCount" :total="journal.length" />
     </div>
-    <UCard class="relative" v-if="journalContent">
+    <UCard v-if="journalContent">
       <ContentRenderer :value="journalContent">
         <template #empty>
           <p>자습일지를 선택해서 읽으실 수 있습니다.</p>
         </template>
-        <span class="absolute top-0 right-0 pt-3 pe-3 text-gray-400 hover:text-gray-600 cursor-pointer"
+        <span class="float-end top-0 right-0 pb-3 ps-3 text-gray-400 hover:text-gray-600 cursor-pointer"
           @click="resetJournal()">닫기</span>
         <ContentRendererMarkdown :value="journalContent" class="prose max-w-none">loading...</ContentRendererMarkdown>
       </ContentRenderer>

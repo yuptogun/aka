@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   content: {
     highlight: {
       theme: 'monokai',
-      langs: ['ts', 'php', 'python'],
+      langs: ['ts', 'php', 'python', 'shell', 'html', 'vue', 'yaml', 'json', 'sql', 'css'],
     },
   },
 });
