@@ -9,4 +9,11 @@ export default defineNuxtConfig({
       langs: ['ts', 'php', 'python', 'shell', 'html', 'vue', 'yaml', 'json', 'sql', 'css'],
     },
   },
+  nitro: {
+    routeRules: {
+      "/server/**": {
+        proxy: 'http://localhost:3001/api/**',
+      },
+    },
+  },
 });
